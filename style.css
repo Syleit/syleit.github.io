@@ -1,12 +1,32 @@
 body {
   background-color: #222;
   color: white;
-  text-align: center;
   font-family: sans-serif;
-  font-size: 5rem;
+  font-size: 2rem;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 h1 {
   color: #1e6e10;
+  animation-name: grow;
 }
 
+@keyframes grow {
+  from {
+    transform: scale(0.75);
+  }
+
+  to {
+    transform: scale(3);
+  }
+}
+
+.schief {
+  transform: rotate(5);
+}
