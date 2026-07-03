@@ -15,7 +15,7 @@ body {
 h1 {
   color: #1e6e10;
   animation: grow 5s infinite;
-  margin: 1rem
+  margin: 1.5rem
 }
 
 @keyframes grow {
