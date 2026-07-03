@@ -35,6 +35,16 @@ h1 {
   }
 }
 
+@keyframes rotator {
+ 0%, 100% {
+  transform: rotate(0);
+ }
+
+ 50% {
+  transform: rotate(180);
+ }
+
+}
 
 
 a {
@@ -75,4 +85,11 @@ button {
 
 button a {
   color: black;
+}
+
+h2 {
+  color: aqua;
+  margin: 1.5rem;
+  font-size: 2.25rem;
+  animation: rotator 10s infinite;
 }
