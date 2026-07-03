@@ -70,6 +70,9 @@ button {
   font-size: 3rem;
   padding: 0.75rem;
   border: 1px solid #444;
-  color: black;
   border-radius: 3em;
+}
+
+button a {
+  color: black;
 }
