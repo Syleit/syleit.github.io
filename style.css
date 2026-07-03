@@ -14,19 +14,23 @@ body {
 
 h1 {
   color: #1e6e10;
-  animation-name: grow;
+  animation: grow 5s infinite;
   margin: 1rem
 }
 
 @keyframes grow {
   from {
     transform: scale(0.75);
+    color: #1e6e10;
   }
 
   to {
     transform: scale(3);
+    color: yellow;
   }
 }
+
+
 
 a {
   color: white;
