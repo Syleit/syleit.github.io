@@ -51,8 +51,8 @@ a:hover {
 }
 
 section {
-  margin-top: 2rem;
-  padding: 1.25rem;
+  margin-top: 4rem;
+  padding: 2rem;
   border: 4px solid red;
   background-color: yellow;
 
@@ -60,6 +60,13 @@ section {
 }
 
 section p {
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   color: red;
+}
+
+
+button {
+  margin-top: 3rem;
+  transform: scale(3.5);
+  border: 1px solid #444;
 }
