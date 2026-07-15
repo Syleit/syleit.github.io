@@ -1,34 +1,161 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <title>Free Robux</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="SYLEIT.OS is a local-only meme utility console with Bogos Binted energy."
+    />
+    <meta name="theme-color" content="#171717" />
+    <title>SYLEIT.OS — Meme utility console</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <!-- XXL BIGGER SECTI-->
+    <a class="skip-link" href="#dashboard">Skip to dashboard</a>
 
-    <h1 class="grow">Free robux</h1>
+    <div class="site-shell">
+      <header class="system-bar" aria-label="System bar">
+        <a class="brand" href="#top" aria-label="SYLEIT.OS home">SYLEIT<span>.OS</span></a>
+        <div class="system-readout" aria-label="Current local system status">
+          <time id="local-time">--:--:--</time>
+          <span class="readout-divider" aria-hidden="true">/</span>
+          <span>SESSION: <strong id="session-status">STABLE</strong></span>
+        </div>
+        <div class="system-actions">
+          <button id="sound-toggle" class="text-button" type="button" aria-pressed="false">
+            SOUND: OFF
+          </button>
+          <a class="text-button github-link" href="https://github.com/Syleit" target="_blank" rel="noreferrer">
+            GITHUB ↗
+          </a>
+        </div>
+      </header>
 
-    <a href="https://bigrat.monster/perfect/" class="schief">Click Here</a>
+      <main id="top">
+        <section class="intro" aria-labelledby="page-title">
+          <p class="protocol-line">PUBLIC TERMINAL / NO TELEMETRY / MOSTLY HARMLESS</p>
+          <h1 id="page-title">NOT A LANDING PAGE.<br />A SMALL, WEIRD UTILITY.</h1>
+          <p class="intro-copy">
+            A locally powered corner of the internet for unreasonable gradients, bad phrases, and controlled panic.
+            <span lang="de">Alles bleibt in deinem Browser.</span>
+          </p>
+        </section>
 
-    <img
-      src="https://github.com/bigratmonster/bigrat.monster/blob/main/media/unpleasantgradient.jpg?raw=true"
-      height="400px"
-      width="600px"
-    />
+        <div id="dashboard" class="dashboard" tabindex="-1">
+          <article class="panel artifact-panel">
+            <div class="panel-heading">
+              <p>ARTIFACT VIEWER</p>
+              <span class="status-mark" id="artifact-status">RENDERED LOCALLY</span>
+            </div>
+            <div class="artifact-image" role="img" aria-label="A deliberately unpleasant CSS-rendered gradient artifact">
+              <span class="artifact-stamp">UNPLEASANT<br />GRADIENT</span>
+              <span class="artifact-coordinate">X: 404 / Y: 808</span>
+            </div>
+            <div class="panel-footer">
+              <p id="artifact-caption">NO IMAGE REQUESTS WERE HARMED IN THIS RENDER.</p>
+              <button class="button button-danger" type="button" data-action="panic">PANIC MODE</button>
+            </div>
+          </article>
 
-    <section>
-      <p>
-        ALLES MUSS RAUS! <br />
-        GRATIS ROBUX NUR HEUTE!
-      </p>
-    </section>
+          <article class="panel roulette-panel">
+            <div class="panel-heading">
+              <p>MEME ROULETTE</p>
+              <span class="status-mark">CURATED CHAOS</span>
+            </div>
+            <p id="roulette-result" class="roulette-result" aria-live="polite">
+              THE WHEEL IS RESTING. THIS IS SUSPICIOUS.
+            </p>
+            <div class="roulette-controls">
+              <button class="button button-primary" type="button" data-action="random">SPIN THE WHEEL</button>
+              <span>ZERO ADS / ONE BUTTON</span>
+            </div>
+          </article>
 
-    <button>
-      <a
-        href="https://github.com/Endermanch/MalwareDatabase/blob/master/ransomwares/WannaCrypt0r.zip"
-        >PASS: mysubsarethebest
-      </a>
-    </button>
+          <article class="panel bogos-panel">
+            <div class="panel-heading">
+              <p>BOGOS BINTED</p>
+              <span class="status-mark">PHRASE UNIT</span>
+            </div>
+            <output id="bogos-phrase" class="bogos-phrase" aria-live="polite">BINTED?</output>
+            <div class="bogos-controls">
+              <button class="button" type="button" data-action="bogos">GENERATE PHRASE</button>
+              <button id="copy-phrase" class="button" type="button">COPY</button>
+            </div>
+            <p id="copy-feedback" class="feedback" aria-live="polite">COPY BUFFER: IDLE</p>
+          </article>
+
+          <section class="panel telemetry-panel" aria-labelledby="telemetry-title">
+            <div class="panel-heading">
+              <p id="telemetry-title">LOCAL TELEMETRY</p>
+              <span class="status-mark">THIS DEVICE ONLY</span>
+            </div>
+            <dl class="telemetry-list">
+              <div>
+                <dt>VISITS</dt>
+                <dd id="visit-count">0</dd>
+              </div>
+              <div>
+                <dt>INTERACTIONS</dt>
+                <dd id="interaction-count">0</dd>
+              </div>
+            </dl>
+            <p class="panel-note">Stored only in this browser. No IP collection. No tracking.</p>
+          </section>
+
+          <section class="panel console-panel" aria-labelledby="console-title">
+            <div class="panel-heading">
+              <p id="console-title">COMMAND CONSOLE</p>
+              <span class="status-mark">KEYBOARD READY</span>
+            </div>
+            <p class="console-copy">Utilities have a second door. Try the visible launcher or <kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>K</kbd>.</p>
+            <button id="console-launcher" class="button button-primary" type="button">OPEN CONSOLE</button>
+          </section>
+
+          <section class="panel activity-panel" aria-labelledby="activity-title">
+            <div class="panel-heading">
+              <p id="activity-title">ACTIVITY LOG</p>
+              <span class="status-mark">EPHEMERAL</span>
+            </div>
+            <ol id="activity-log" class="activity-log" aria-live="polite" aria-relevant="additions text">
+              <li>TERMINAL ONLINE. NOTHING HAS HAPPENED YET.</li>
+            </ol>
+          </section>
+        </div>
+      </main>
+
+      <footer class="footer-line">
+        <span>SYLEIT.OS / BUILT WITH HTML, CSS, AND A QUESTIONABLE AMOUNT OF RESTRAINT</span>
+        <a href="grabbed.html">LEGACY ROUTE</a>
+      </footer>
+    </div>
+
+    <dialog id="command-dialog" aria-labelledby="command-title">
+      <div class="dialog-frame">
+        <div class="dialog-heading">
+          <div>
+            <p>COMMAND CONSOLE</p>
+            <h2 id="command-title">TYPE SOMETHING REASONABLE.</h2>
+          </div>
+          <button id="console-close" class="icon-button" type="button" aria-label="Close command console">×</button>
+        </div>
+        <p class="dialog-help">AVAILABLE: <code>help</code>, <code>random</code>, <code>bogos</code>, <code>panic</code>, <code>github</code>, <code>sound</code>, <code>clear</code></p>
+        <form id="command-form" novalidate>
+          <label for="command-input">COMMAND</label>
+          <div class="command-field">
+            <span aria-hidden="true">&gt;</span>
+            <input id="command-input" name="command" type="text" autocomplete="off" spellcheck="false" />
+            <button class="button button-primary" type="submit">RUN</button>
+          </div>
+        </form>
+        <output id="console-output" class="console-output" aria-live="polite">AWAITING INPUT.</output>
+      </div>
+    </dialog>
+
+    <p id="screen-reader-notice" class="sr-only" aria-live="polite"></p>
+    <noscript>
+      <p class="noscript-notice">JavaScript is off. The static dashboard and <a href="https://github.com/Syleit">Syleit GitHub profile</a> are still available.</p>
+    </noscript>
   </body>
 </html>
