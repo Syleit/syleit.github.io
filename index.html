@@ -3,159 +3,156 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="SYLEIT.OS is a local-only meme utility console with Bogos Binted energy."
-    />
-    <meta name="theme-color" content="#171717" />
-    <title>SYLEIT.OS — Meme utility console</title>
+    <meta name="description" content="Syleit's extremely normal collection of rats, memes, cheese, and questionable CSS." />
+    <meta name="theme-color" content="#00b8a9" />
+    <meta property="og:title" content="Syleit's Very Normal Website" />
+    <meta property="og:description" content="Real memes. Big rat. Questionable buttons." />
+    <meta property="og:image" content="assets/unpleasantgradient.jpg" />
+    <title>Syleit's Very Normal Website</title>
+    <link rel="icon" href="assets/cartoon-cheese-3.png" />
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
   </head>
-  <body>
-    <a class="skip-link" href="#dashboard">Skip to dashboard</a>
+  <body data-chaos="0">
+    <a class="skip-link" href="#meme-machine">skip this nonsense</a>
 
-    <div class="site-shell">
-      <header class="system-bar" aria-label="System bar">
-        <a class="brand" href="#top" aria-label="SYLEIT.OS home">SYLEIT<span>.OS</span></a>
-        <div class="system-readout" aria-label="Current local system status">
-          <time id="local-time">--:--:--</time>
-          <span class="readout-divider" aria-hidden="true">/</span>
-          <span>SESSION: <strong id="session-status">STABLE</strong></span>
+    <div class="ticker" aria-label="Breaking news: this website is extremely normal">
+      <div class="ticker-track" aria-hidden="true">
+        ★ BREAKING: WEBSITE FOUND ON INTERNET ★ BIG RAT STILL BIG ★ BOGOS STATUS: BINTED ★ NO ROBUX HERE ★
+        BREAKING: WEBSITE FOUND ON INTERNET ★ BIG RAT STILL BIG ★ BOGOS STATUS: BINTED ★ NO ROBUX HERE ★
+      </div>
+    </div>
+
+    <div class="page">
+      <nav class="bad-nav" aria-label="Tiny but useful navigation">
+        <a href="#meme-machine">random meme</a>
+        <a href="#bogos-zone">bogos binted</a>
+        <a href="#serious-controls">dangerous buttons</a>
+        <a href="https://github.com/Syleit" target="_blank" rel="noreferrer">my github ↗</a>
+      </nav>
+
+      <header class="hero">
+        <p class="best-viewed">best viewed on a computer you found behind a Lidl</p>
+
+        <h1 class="hero-title">
+          <span class="syleit">SYLEIT'S</span>
+          <span class="normal">VERY NORMAL</span>
+          <span class="website">WEBSITE</span>
+        </h1>
+
+        <div class="hero-grid">
+          <figure class="gradient-frame">
+            <img
+              src="assets/unpleasantgradient.jpg"
+              width="1080"
+              height="769"
+              alt="The original meme showing a green, pink, and brown gradient arriving at a front door"
+            />
+            <figcaption>THE ACTUAL UNPLEASANT GRADIENT. NOT A CSS RECREATION.</figcaption>
+            <span class="door-warning">DO NOT LET IT IN</span>
+          </figure>
+
+          <aside class="rat-corner" aria-label="The webmaster">
+            <p class="rat-label">WEBMASTER:</p>
+            <img id="hero-rat" src="assets/bigrat.jpg" width="992" height="744" alt="A very large gray pet rat" />
+            <p class="rat-review">★★★★★<br />ate the old design</p>
+          </aside>
         </div>
-        <div class="system-actions">
-          <button id="sound-toggle" class="text-button" type="button" aria-pressed="false">
-            SOUND: OFF
-          </button>
-          <a class="text-button github-link" href="https://github.com/Syleit" target="_blank" rel="noreferrer">
-            GITHUB ↗
-          </a>
+
+        <div class="hero-buttons" aria-label="Main actions">
+          <button id="random-top" class="button random-button" type="button">SHOW ME A RANDOM MEME</button>
+          <button id="worse-top" class="button worse-button" type="button">MAKE THE WEBSITE WORSE</button>
+          <a class="button github-button" href="https://github.com/Syleit" target="_blank" rel="noreferrer">GO TO THE GITHUB</a>
         </div>
+
+        <p class="visitor-note">you are visitor number <strong id="visit-count">???</strong> on this browser specifically</p>
       </header>
 
-      <main id="top">
-        <section class="intro" aria-labelledby="page-title">
-          <p class="protocol-line">PUBLIC TERMINAL / NO TELEMETRY / MOSTLY HARMLESS</p>
-          <h1 id="page-title">NOT A LANDING PAGE.<br />A SMALL, WEIRD UTILITY.</h1>
-          <p class="intro-copy">
-            A locally powered corner of the internet for unreasonable gradients, bad phrases, and controlled panic.
-            <span lang="de">Alles bleibt in deinem Browser.</span>
-          </p>
+      <main>
+        <section id="meme-machine" class="meme-machine">
+          <div class="section-title crooked-title">
+            <h2>RANDOM MEME MACHINE</h2>
+            <p>button changes the picture. it is actually random.</p>
+          </div>
+
+          <figure id="meme-stage" class="meme-stage">
+            <div class="meme-image-wrap">
+              <img
+                id="meme-image"
+                src="assets/unpleasantgradient.jpg"
+                width="1080"
+                height="769"
+                alt="The original unpleasant gradient meme at a front door"
+              />
+            </div>
+            <figcaption id="meme-caption">THE ORIGINAL UNPLEASANT GRADIENT</figcaption>
+          </figure>
+
+          <div class="button-pile">
+            <button id="random-meme" class="button random-button" type="button">RANDOM MEME →</button>
+            <button id="make-worse" class="button worse-button" type="button">ADD 1 WEBSITE DAMAGE</button>
+            <button id="reset-site" class="button reset-button" type="button">UNDO ALL DAMAGE</button>
+          </div>
+          <output id="damage-status" class="damage-status" aria-live="polite">WEBSITE DAMAGE: 0 / 5</output>
         </section>
 
-        <div id="dashboard" class="dashboard" tabindex="-1">
-          <article class="panel artifact-panel">
-            <div class="panel-heading">
-              <p>ARTIFACT VIEWER</p>
-              <span class="status-mark" id="artifact-status">RENDERED LOCALLY</span>
-            </div>
-            <div class="artifact-image" role="img" aria-label="A deliberately unpleasant CSS-rendered gradient artifact">
-              <span class="artifact-stamp">UNPLEASANT<br />GRADIENT</span>
-              <span class="artifact-coordinate">X: 404 / Y: 808</span>
-            </div>
-            <div class="panel-footer">
-              <p id="artifact-caption">NO IMAGE REQUESTS WERE HARMED IN THIS RENDER.</p>
-              <button class="button button-danger" type="button" data-action="panic">PANIC MODE</button>
-            </div>
-          </article>
+        <section id="bogos-zone" class="bogos-zone">
+          <div class="section-title">
+            <h2>BOGOS BINTED</h2>
+            <p>the complete story. no generated dialogue.</p>
+          </div>
 
-          <article class="panel roulette-panel">
-            <div class="panel-heading">
-              <p>MEME ROULETTE</p>
-              <span class="status-mark">CURATED CHAOS</span>
+          <div class="bogos-grid">
+            <div class="chat-log" aria-label="Bogos Binted conversation">
+              <p class="alien-message"><b>ALIEN:</b> bogos binted?</p>
+              <p class="human-message"><b>YOU:</b> what?</p>
+              <p class="alien-message"><b>ALIEN:</b> photos printed?</p>
+              <p class="human-message"><b>YOU:</b> 👽</p>
+              <p class="alien-message long-message">zinky zoogle, zeekybooble beeble meep forp bogos binted.</p>
             </div>
-            <p id="roulette-result" class="roulette-result" aria-live="polite">
-              THE WHEEL IS RESTING. THIS IS SUSPICIOUS.
-            </p>
-            <div class="roulette-controls">
-              <button class="button button-primary" type="button" data-action="random">SPIN THE WHEEL</button>
-              <span>ZERO ADS / ONE BUTTON</span>
-            </div>
-          </article>
 
-          <article class="panel bogos-panel">
-            <div class="panel-heading">
-              <p>BOGOS BINTED</p>
-              <span class="status-mark">PHRASE UNIT</span>
+            <div class="printer-box">
+              <button id="print-bogos" class="button print-button" type="button">PRINT THE BOGOS</button>
+              <p class="tiny-warning">makes a printer noise after you click it</p>
+              <figure id="printer-output" class="printer-output" hidden>
+                <img src="assets/printer1bigger.png" width="1664" height="1368" alt="A mouse labelled printer" />
+                <figcaption id="print-status">PHOTOS PRINTED.</figcaption>
+              </figure>
             </div>
-            <output id="bogos-phrase" class="bogos-phrase" aria-live="polite">BINTED?</output>
-            <div class="bogos-controls">
-              <button class="button" type="button" data-action="bogos">GENERATE PHRASE</button>
-              <button id="copy-phrase" class="button" type="button">COPY</button>
-            </div>
-            <p id="copy-feedback" class="feedback" aria-live="polite">COPY BUFFER: IDLE</p>
-          </article>
+          </div>
+          <audio id="printer-sound" src="assets/printer.mp3" preload="none"></audio>
+        </section>
 
-          <section class="panel telemetry-panel" aria-labelledby="telemetry-title">
-            <div class="panel-heading">
-              <p id="telemetry-title">LOCAL TELEMETRY</p>
-              <span class="status-mark">THIS DEVICE ONLY</span>
-            </div>
-            <dl class="telemetry-list">
-              <div>
-                <dt>VISITS</dt>
-                <dd id="visit-count">0</dd>
-              </div>
-              <div>
-                <dt>INTERACTIONS</dt>
-                <dd id="interaction-count">0</dd>
-              </div>
-            </dl>
-            <p class="panel-note">Stored only in this browser. No IP collection. No tracking.</p>
-          </section>
+        <section id="serious-controls" class="control-zone">
+          <div class="section-title sideways-title">
+            <h2>SERIOUS WEBSITE CONTROLS</h2>
+            <p>all controls affect the page immediately. unfortunately.</p>
+          </div>
 
-          <section class="panel console-panel" aria-labelledby="console-title">
-            <div class="panel-heading">
-              <p id="console-title">COMMAND CONSOLE</p>
-              <span class="status-mark">KEYBOARD READY</span>
-            </div>
-            <p class="console-copy">Utilities have a second door. Try the visible launcher or <kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>K</kbd>.</p>
-            <button id="console-launcher" class="button button-primary" type="button">OPEN CONSOLE</button>
-          </section>
-
-          <section class="panel activity-panel" aria-labelledby="activity-title">
-            <div class="panel-heading">
-              <p id="activity-title">ACTIVITY LOG</p>
-              <span class="status-mark">EPHEMERAL</span>
-            </div>
-            <ol id="activity-log" class="activity-log" aria-live="polite" aria-relevant="additions text">
-              <li>TERMINAL ONLINE. NOTHING HAS HAPPENED YET.</li>
-            </ol>
-          </section>
-        </div>
+          <div class="control-shelf">
+            <label class="rat-slider" for="rat-size">
+              RAT SIZE
+              <input id="rat-size" type="range" min="50" max="180" value="100" />
+            </label>
+            <button id="add-rat" class="button rat-button" type="button">ADD ANOTHER RAT</button>
+            <button id="release-cheese" class="button cheese-button" type="button">RELEASE THE CHEESE</button>
+            <button id="troll-button" class="button troll-button" type="button">EMERGENCY TROLLFACE</button>
+          </div>
+          <output id="control-status" class="control-status" aria-live="polite">NOTHING BAD HAS HAPPENED YET.</output>
+        </section>
       </main>
 
-      <footer class="footer-line">
-        <span>SYLEIT.OS / BUILT WITH HTML, CSS, AND A QUESTIONABLE AMOUNT OF RESTRAINT</span>
-        <a href="grabbed.html">LEGACY ROUTE</a>
+      <footer class="footer">
+        <img src="assets/unknown.png" width="267" height="96" alt="Discord message from Brady saying your opinion doesn't matter" />
+        <p>made with html, css, javascript and absolutely no sense of restraint</p>
+        <p><a href="grabbed.html">suspicious legacy page</a> · <a href="https://github.com/bigratmonster/bigrat.monster/tree/main/media" target="_blank" rel="noreferrer">meme specimen source ↗</a></p>
       </footer>
     </div>
 
-    <dialog id="command-dialog" aria-labelledby="command-title">
-      <div class="dialog-frame">
-        <div class="dialog-heading">
-          <div>
-            <p>COMMAND CONSOLE</p>
-            <h2 id="command-title">TYPE SOMETHING REASONABLE.</h2>
-          </div>
-          <button id="console-close" class="icon-button" type="button" aria-label="Close command console">×</button>
-        </div>
-        <p class="dialog-help">AVAILABLE: <code>help</code>, <code>random</code>, <code>bogos</code>, <code>panic</code>, <code>github</code>, <code>sound</code>, <code>clear</code></p>
-        <form id="command-form" novalidate>
-          <label for="command-input">COMMAND</label>
-          <div class="command-field">
-            <span aria-hidden="true">&gt;</span>
-            <input id="command-input" name="command" type="text" autocomplete="off" spellcheck="false" />
-            <button class="button button-primary" type="submit">RUN</button>
-          </div>
-        </form>
-        <output id="console-output" class="console-output" aria-live="polite">AWAITING INPUT.</output>
-      </div>
-    </dialog>
+    <div id="junk-layer" class="junk-layer" aria-hidden="true"></div>
 
-    <p id="screen-reader-notice" class="sr-only" aria-live="polite"></p>
     <noscript>
-      <p class="noscript-notice">JavaScript is off. The static dashboard and <a href="https://github.com/Syleit">Syleit GitHub profile</a> are still available.</p>
+      <p class="noscript-note">javascript is off. honestly this may improve the website. the memes still work with your eyes.</p>
     </noscript>
   </body>
 </html>

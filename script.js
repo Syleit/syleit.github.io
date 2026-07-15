@@ -1,424 +1,258 @@
 (() => {
   "use strict";
 
-  const STORAGE_PREFIX = "syleit-meme-os:v1";
-  const MAX_LOG_ENTRIES = 7;
-  const PANIC_DURATION = 3200;
-  const BINTED_DURATION = 4200;
-
-  const events = [
+  const memes = [
     {
-      text: "A SINGLE JPEG HAS REQUESTED UNION REPRESENTATION.",
-      caption: "ARTIFACT HAS DECLINED TO EXPLAIN ITSELF.",
+      src: "assets/unpleasantgradient.jpg",
+      alt: "The original unpleasant gradient meme arriving at a front door",
+      caption: "THE ORIGINAL UNPLEASANT GRADIENT",
     },
     {
-      text: "THE VIBECHECK PASSED, THEN IMMEDIATELY LOST ITS RECEIPT.",
-      caption: "RECEIPT STATUS: PROBABLY IN THE VOID.",
+      src: "assets/bigrat.jpg",
+      alt: "A very large gray pet rat sitting on someone's lap",
+      caption: "BIG RAT. OBJECTIVELY BIG.",
     },
     {
-      text: "YOU FOUND THE BUTTON. THE BUTTON FOUND YOU BACK.",
-      caption: "LOCAL LOOP DETECTED. KEEP HANDS INSIDE BROWSER.",
+      src: "assets/dream_chungus.png",
+      alt: "A simple drawing combining Dream's mask face with Big Chungus",
+      caption: "DREAM CHUNGUS HAS LOGGED ON",
     },
     {
-      text: "A SMALL WIZARD HAS REPLACED YOUR TABS WITH MORE TABS.",
-      caption: "THE ARTIFACT IS NOW AWARE OF BROWSING HABITS.",
+      src: "assets/trollcrazy.png",
+      alt: "A distorted black and white trollface",
+      caption: "CERTIFIED 2011 INTERNET FACE",
     },
     {
-      text: "CERTIFIED FRESH. CERTIFICATION OFFICE: A PARKING LOT.",
-      caption: "QUALITY CONTROL WAS A VIBE, NOT A PROCESS.",
+      src: "assets/unknown.png",
+      alt: "Discord message from Brady saying your opinion doesn't matter",
+      caption: "BRADY HAS CLOSED THE DISCUSSION",
+    },
+    {
+      src: "assets/printer1bigger.png",
+      alt: "A mouse labelled printer",
+      caption: "PHOTOS PRINTED",
     },
   ];
 
-  const phrases = [
-    "BINTED?",
-    "BOGOS BINTED.",
-    "WHAT?",
-    "BEEP BEEP, BOGOS.",
-    "THE ORB SAID BINTED.",
-    "NO REFUNDS. ONLY BINTED.",
-    "BINTED WITH INTENT.",
+  const junkAssets = [
+    "assets/bigrat.jpg",
+    "assets/trollcrazy.png",
+    "assets/dream_chungus.png",
+    "assets/cartoon-cheese-3.png",
   ];
 
-  const element = (id) => document.getElementById(id);
+  const palettes = [
+    ["#00b8a9", "#0077ff", "#ff2fb3", "#fff200"],
+    ["#ff7a00", "#7434ff", "#00ff66", "#ffea00"],
+    ["#ff44c7", "#00aaff", "#7dff00", "#fff200"],
+    ["#65d40b", "#ff1744", "#00e5ff", "#ffe600"],
+  ];
+
+  const byId = (id) => document.getElementById(id);
   const dom = {
-    localTime: element("local-time"),
-    sessionStatus: element("session-status"),
-    soundToggle: element("sound-toggle"),
-    rouletteResult: element("roulette-result"),
-    artifactCaption: element("artifact-caption"),
-    bogosPhrase: element("bogos-phrase"),
-    copyPhrase: element("copy-phrase"),
-    copyFeedback: element("copy-feedback"),
-    visitCount: element("visit-count"),
-    interactionCount: element("interaction-count"),
-    activityLog: element("activity-log"),
-    consoleLauncher: element("console-launcher"),
-    consoleDialog: element("command-dialog"),
-    consoleClose: element("console-close"),
-    commandForm: element("command-form"),
-    commandInput: element("command-input"),
-    consoleOutput: element("console-output"),
-    notice: element("screen-reader-notice"),
+    root: document.documentElement,
+    body: document.body,
+    randomTop: byId("random-top"),
+    worseTop: byId("worse-top"),
+    randomMeme: byId("random-meme"),
+    makeWorse: byId("make-worse"),
+    resetSite: byId("reset-site"),
+    memeStage: byId("meme-stage"),
+    memeImage: byId("meme-image"),
+    memeCaption: byId("meme-caption"),
+    damageStatus: byId("damage-status"),
+    ratSize: byId("rat-size"),
+    addRat: byId("add-rat"),
+    releaseCheese: byId("release-cheese"),
+    trollButton: byId("troll-button"),
+    controlStatus: byId("control-status"),
+    printBogos: byId("print-bogos"),
+    printerOutput: byId("printer-output"),
+    printerSound: byId("printer-sound"),
+    printStatus: byId("print-status"),
+    junkLayer: byId("junk-layer"),
+    visitCount: byId("visit-count"),
   };
 
-  const memoryStore = new Map();
-  let localStorageAvailable = false;
-  let soundEnabled = false;
-  let audioContext;
-  let panicTimer;
-  let bintedTimer;
-  let lastFocusedElement = null;
-  let activityEntries = [];
-  let currentPhrase = dom.bogosPhrase.textContent;
+  let currentMeme = 0;
+  let chaosLevel = 0;
+  let printerTimer;
   let konamiPosition = 0;
 
-  try {
-    const probeKey = `${STORAGE_PREFIX}:storage-probe`;
-    window.localStorage.setItem(probeKey, "1");
-    window.localStorage.removeItem(probeKey);
-    localStorageAvailable = true;
-  } catch {
-    localStorageAvailable = false;
-  }
+  const randomBetween = (min, max) => Math.random() * (max - min) + min;
+  const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
+  const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const store = {
-    get(key) {
-      const scopedKey = `${STORAGE_PREFIX}:${key}`;
-      if (localStorageAvailable) {
-        try {
-          return window.localStorage.getItem(scopedKey);
-        } catch {
-          localStorageAvailable = false;
-        }
-      }
-      return memoryStore.get(scopedKey) ?? null;
-    },
-    set(key, value) {
-      const scopedKey = `${STORAGE_PREFIX}:${key}`;
-      const serializedValue = String(value);
-      if (localStorageAvailable) {
-        try {
-          window.localStorage.setItem(scopedKey, serializedValue);
-          return;
-        } catch {
-          localStorageAvailable = false;
-        }
-      }
-      memoryStore.set(scopedKey, serializedValue);
-    },
-  };
-
-  const readNumber = (key) => {
-    const value = Number.parseInt(store.get(key) || "0", 10);
-    return Number.isFinite(value) && value >= 0 ? value : 0;
-  };
-
-  const updateCounterDisplay = () => {
-    dom.visitCount.textContent = readNumber("visits").toLocaleString();
-    dom.interactionCount.textContent = readNumber("interactions").toLocaleString();
-  };
-
-  const incrementInteractions = () => {
-    store.set("interactions", readNumber("interactions") + 1);
-    updateCounterDisplay();
-  };
-
-  const announce = (message) => {
-    dom.notice.textContent = "";
-    window.setTimeout(() => {
-      dom.notice.textContent = message;
-    }, 30);
-  };
-
-  const addLog = (message) => {
-    activityEntries = [message, ...activityEntries].slice(0, MAX_LOG_ENTRIES);
-    dom.activityLog.replaceChildren(
-      ...activityEntries.map((entry) => {
-        const item = document.createElement("li");
-        item.textContent = entry;
-        return item;
-      }),
-    );
-  };
-
-  const randomItem = (items, current) => {
-    if (items.length < 2) return items[0];
-    const possibleItems = items.filter((item) => item !== current);
-    return possibleItems[Math.floor(Math.random() * possibleItems.length)];
-  };
-
-  const updateSession = (state) => {
-    dom.sessionStatus.textContent = state;
-  };
-
-  const updateTime = () => {
-    const now = new Date();
-    dom.localTime.textContent = new Intl.DateTimeFormat(undefined, {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    }).format(now);
-    dom.localTime.dateTime = now.toISOString();
-  };
-
-  const playTone = (frequency = 330, duration = 0.07) => {
-    if (!soundEnabled) return;
-
-    const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextConstructor) return;
-
+  const setVisitCount = () => {
+    const key = "syleit-goofy-site:v2:visits";
+    let visits = 1;
     try {
-      audioContext ||= new AudioContextConstructor();
-      const scheduleTone = () => {
-        const oscillator = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-        oscillator.type = "square";
-        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-        gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.028, audioContext.currentTime + 0.01);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
-        oscillator.connect(gain).connect(audioContext.destination);
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + duration + 0.01);
-      };
-
-      if (audioContext.state === "suspended") {
-        audioContext.resume().then(scheduleTone).catch(() => {});
-      } else {
-        scheduleTone();
-      }
+      visits = Number.parseInt(window.localStorage.getItem(key) || "0", 10) + 1;
+      if (!Number.isFinite(visits)) visits = 1;
+      window.localStorage.setItem(key, String(visits));
     } catch {
-      // Audio is an optional enhancement; the interface stays fully usable without it.
+      visits = 1;
     }
+    dom.visitCount.textContent = visits.toLocaleString();
   };
 
-  const syncSoundControl = () => {
-    dom.soundToggle.setAttribute("aria-pressed", String(soundEnabled));
-    dom.soundToggle.textContent = `SOUND: ${soundEnabled ? "ON" : "OFF"}`;
+  const applyRandomPalette = () => {
+    const [background, backgroundTwo, hot, yellow] = randomItem(palettes);
+    dom.root.style.setProperty("--page-bg", background);
+    dom.root.style.setProperty("--page-bg-2", backgroundTwo);
+    dom.root.style.setProperty("--hot", hot);
+    dom.root.style.setProperty("--yellow", yellow);
   };
 
-  const actionRandom = () => {
-    const event = randomItem(events, dom.rouletteResult.textContent);
-    dom.rouletteResult.textContent = event.text;
-    dom.artifactCaption.textContent = event.caption;
-    incrementInteractions();
-    addLog("ROULETTE EVENT DEPLOYED.");
-    announce("Meme roulette updated.");
-    playTone(440);
-    return "ROULETTE: EVENT DEPLOYED.";
+  const showMeme = (index) => {
+    const meme = memes[index];
+    currentMeme = index;
+    dom.memeImage.src = meme.src;
+    dom.memeImage.alt = meme.alt;
+    dom.memeCaption.textContent = meme.caption;
+    dom.memeStage.style.setProperty("--stage-tilt", `${randomBetween(-4, 4).toFixed(1)}deg`);
   };
 
-  const actionBogos = () => {
-    currentPhrase = randomItem(phrases, currentPhrase);
-    dom.bogosPhrase.textContent = currentPhrase;
-    dom.copyFeedback.textContent = "COPY BUFFER: NEW PHRASE GENERATED";
-    incrementInteractions();
-    addLog("BOGOS PHRASE GENERATED.");
-    announce(`Phrase generated: ${currentPhrase}`);
-    playTone(510);
-    return `PHRASE: ${currentPhrase}`;
+  const showRandomMeme = () => {
+    let next = currentMeme;
+    while (next === currentMeme && memes.length > 1) {
+      next = Math.floor(Math.random() * memes.length);
+    }
+    showMeme(next);
+    applyRandomPalette();
+    dom.controlStatus.textContent = `MEME LOADED: ${memes[next].caption}`;
+    byId("meme-machine").scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" });
   };
 
-  const actionPanic = () => {
-    window.clearTimeout(panicTimer);
-    document.body.classList.add("panic-mode");
-    updateSession("PANIC");
-    incrementInteractions();
-    addLog("PANIC MODE ACTIVE. STAY CALM, WHICH IS NOW HARDER.");
-    announce("Panic mode active for three seconds.");
-    playTone(190, 0.11);
-    panicTimer = window.setTimeout(() => {
-      document.body.classList.remove("panic-mode");
-      updateSession(document.body.classList.contains("binted") ? "BINTED" : "STABLE");
-      addLog("PANIC MODE EXITED WITHOUT INCIDENT.");
-    }, PANIC_DURATION);
-    return "PANIC: TEMPORARY INVERSION ACTIVE.";
+  const createJunk = (forcedAsset) => {
+    const image = document.createElement("img");
+    image.className = "junk-item";
+    image.src = forcedAsset || randomItem(junkAssets);
+    image.alt = "";
+    image.style.setProperty("--junk-left", `${randomBetween(0, 88).toFixed(1)}vw`);
+    image.style.setProperty("--junk-top", `${randomBetween(4, 82).toFixed(1)}vh`);
+    image.style.setProperty("--junk-size", `${randomBetween(55, 175).toFixed(0)}px`);
+    image.style.setProperty("--junk-angle", `${randomBetween(-30, 30).toFixed(0)}deg`);
+    image.style.setProperty("--junk-speed", `${randomBetween(1.4, 3.5).toFixed(1)}s`);
+    dom.junkLayer.append(image);
   };
 
-  const actionGithub = () => {
-    incrementInteractions();
-    addLog("GITHUB REQUEST ACKNOWLEDGED.");
-    window.open("https://github.com/Syleit", "_blank", "noopener,noreferrer");
-    return "GITHUB: OPENING PROFILE.";
+  const makeWebsiteWorse = () => {
+    if (chaosLevel < 5) chaosLevel += 1;
+    dom.body.dataset.chaos = String(chaosLevel);
+    applyRandomPalette();
+    for (let index = 0; index < chaosLevel; index += 1) createJunk();
+    dom.damageStatus.textContent = `WEBSITE DAMAGE: ${chaosLevel} / 5`;
+    dom.controlStatus.textContent = chaosLevel === 5 ? "MAXIMUM WEBSITE ACHIEVED." : `DAMAGE LAYER ${chaosLevel} ADDED.`;
+    dom.makeWorse.textContent = chaosLevel === 5 ? "IT CANNOT GET WORSE (CLICK ANYWAY)" : "ADD 1 WEBSITE DAMAGE";
   };
 
-  const actionSound = () => {
-    soundEnabled = !soundEnabled;
-    store.set("sound", soundEnabled ? "on" : "off");
-    syncSoundControl();
-    incrementInteractions();
-    addLog(`SOUND ${soundEnabled ? "ENABLED" : "DISABLED"}.`);
-    announce(`Sound ${soundEnabled ? "enabled" : "disabled"}.`);
-    if (soundEnabled) playTone(370);
-    return `SOUND: ${soundEnabled ? "ON" : "OFF"}.`;
-  };
-
-  const actionClear = () => {
-    activityEntries = [];
-    dom.activityLog.replaceChildren();
-    incrementInteractions();
-    addLog("CONSOLE CLEARED. THE EVIDENCE IS GONE.");
-    announce("Activity log cleared.");
-    return "CLEAR: ACTIVITY LOG RESET.";
-  };
-
-  const actions = {
-    random: actionRandom,
-    bogos: actionBogos,
-    panic: actionPanic,
-    github: actionGithub,
-    sound: actionSound,
-    clear: actionClear,
-  };
-
-  const copyPhrase = async () => {
-    const text = currentPhrase;
-    let copied = false;
-
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(text);
-        copied = true;
+  const releaseCheese = () => {
+    const count = reducedMotion() ? 5 : 16;
+    for (let index = 0; index < count; index += 1) {
+      if (reducedMotion()) {
+        createJunk("assets/cartoon-cheese-3.png");
+        continue;
       }
-    } catch {
-      copied = false;
+      const cheese = document.createElement("img");
+      cheese.className = "cheese-drop";
+      cheese.src = "assets/cartoon-cheese-3.png";
+      cheese.alt = "";
+      cheese.style.setProperty("--junk-left", `${randomBetween(0, 94).toFixed(1)}vw`);
+      cheese.style.setProperty("--junk-size", `${randomBetween(45, 120).toFixed(0)}px`);
+      cheese.style.setProperty("--junk-angle", `${randomBetween(-45, 45).toFixed(0)}deg`);
+      cheese.style.setProperty("--fall-speed", `${randomBetween(2.8, 4.8).toFixed(1)}s`);
+      cheese.style.setProperty("--fall-delay", `${randomBetween(0, 1.2).toFixed(1)}s`);
+      dom.junkLayer.append(cheese);
+      window.setTimeout(() => cheese.remove(), 6500);
     }
-
-    if (!copied) {
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      textarea.setAttribute("readonly", "");
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.append(textarea);
-      textarea.select();
-      try {
-        copied = document.execCommand("copy");
-      } catch {
-        copied = false;
-      }
-      textarea.remove();
-    }
-
-    incrementInteractions();
-    if (copied) {
-      dom.copyFeedback.textContent = "COPY BUFFER: PHRASE COPIED";
-      addLog("PHRASE COPIED TO LOCAL CLIPBOARD.");
-      announce("Phrase copied to clipboard.");
-      playTone(620);
-    } else {
-      dom.copyFeedback.textContent = "COPY BUFFER: BLOCKED — SELECT MANUALLY";
-      addLog("COPY REQUEST BLOCKED BY BROWSER.");
-      announce("Copy was blocked by the browser. Please select the phrase manually.");
-    }
+    dom.controlStatus.textContent = "CHEESE RELEASED. LOOK UP.";
   };
 
-  const openConsole = () => {
-    if (typeof dom.consoleDialog.showModal !== "function") {
-      dom.consoleOutput.textContent = "DIALOGS ARE NOT SUPPORTED IN THIS BROWSER.";
-      return;
+  const addRat = () => {
+    createJunk("assets/bigrat.jpg");
+    dom.controlStatus.textContent = "ONE ADDITIONAL RAT HAS ENTERED THE WEBSITE.";
+  };
+
+  const summonTroll = () => {
+    for (let index = 0; index < 9; index += 1) createJunk("assets/trollcrazy.png");
+    dom.controlStatus.textContent = "TROLLFACE EMERGENCY SUCCESSFUL.";
+  };
+
+  const printBogos = () => {
+    window.clearTimeout(printerTimer);
+    dom.printerOutput.hidden = false;
+    dom.printStatus.textContent = "PRINTING BOGOS...";
+    dom.printerSound.currentTime = 0;
+    const playback = dom.printerSound.play();
+    if (playback) {
+      playback.catch(() => {
+        dom.printStatus.textContent = "PHOTOS PRINTED. AUDIO WAS BLOCKED.";
+      });
     }
-    lastFocusedElement = document.activeElement;
-    if (!dom.consoleDialog.open) dom.consoleDialog.showModal();
-    dom.commandInput.value = "";
-    dom.consoleOutput.textContent = "AWAITING INPUT.";
-    window.setTimeout(() => dom.commandInput.focus(), 0);
+    printerTimer = window.setTimeout(() => {
+      dom.printStatus.textContent = "PHOTOS PRINTED.";
+    }, 1400);
   };
 
-  const closeConsole = () => {
-    if (dom.consoleDialog.open) dom.consoleDialog.close();
-  };
-
-  const runCommand = (rawCommand) => {
-    const command = rawCommand.trim().toLowerCase();
-    if (!command) return "TYPE A COMMAND OR TRY HELP.";
-    if (command === "help") {
-      return "COMMANDS: HELP, RANDOM, BOGOS, PANIC, GITHUB, SOUND, CLEAR.";
-    }
-    return actions[command]?.() || `UNKNOWN COMMAND: ${command.toUpperCase()}. TRY HELP.`;
-  };
-
-  const activateBintedProtocol = () => {
-    window.clearTimeout(bintedTimer);
-    document.body.classList.add("binted");
-    updateSession("BINTED");
-    dom.rouletteResult.textContent = "BINTED PROTOCOL ACCEPTS YOUR SACRIFICE.";
-    dom.artifactCaption.textContent = "THE PROTOCOL WILL AUTO-EXPIRE. WE THINK.";
-    addLog("KONAMI INPUT ACCEPTED. BINTED PROTOCOL ACTIVE.");
-    announce("Binted protocol active.");
-    playTone(770, 0.12);
-    bintedTimer = window.setTimeout(() => {
-      document.body.classList.remove("binted");
-      updateSession(document.body.classList.contains("panic-mode") ? "PANIC" : "STABLE");
-      addLog("BINTED PROTOCOL EXPIRED. NORMALITY RESTORED, UNVERIFIED.");
-    }, BINTED_DURATION);
+  const resetEverything = () => {
+    window.clearTimeout(printerTimer);
+    chaosLevel = 0;
+    dom.body.dataset.chaos = "0";
+    dom.root.style.removeProperty("--page-bg");
+    dom.root.style.removeProperty("--page-bg-2");
+    dom.root.style.removeProperty("--hot");
+    dom.root.style.removeProperty("--yellow");
+    dom.root.style.setProperty("--rat-scale", "1");
+    dom.ratSize.value = "100";
+    dom.junkLayer.replaceChildren();
+    dom.printerOutput.hidden = true;
+    dom.printerSound.pause();
+    dom.printerSound.currentTime = 0;
+    dom.makeWorse.textContent = "ADD 1 WEBSITE DAMAGE";
+    dom.damageStatus.textContent = "WEBSITE DAMAGE: 0 / 5";
+    dom.controlStatus.textContent = "WEBSITE RESET. THE RAT REMAINS.";
+    showMeme(0);
+    dom.memeStage.style.setProperty("--stage-tilt", "-1deg");
   };
 
   const bindEvents = () => {
-    document.querySelectorAll("[data-action]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const action = button.dataset.action;
-        actions[action]?.();
-      });
-    });
+    dom.randomTop.addEventListener("click", showRandomMeme);
+    dom.randomMeme.addEventListener("click", showRandomMeme);
+    dom.worseTop.addEventListener("click", makeWebsiteWorse);
+    dom.makeWorse.addEventListener("click", makeWebsiteWorse);
+    dom.resetSite.addEventListener("click", resetEverything);
+    dom.addRat.addEventListener("click", addRat);
+    dom.releaseCheese.addEventListener("click", releaseCheese);
+    dom.trollButton.addEventListener("click", summonTroll);
+    dom.printBogos.addEventListener("click", printBogos);
 
-    dom.soundToggle.addEventListener("click", actionSound);
-    dom.copyPhrase.addEventListener("click", copyPhrase);
-    dom.consoleLauncher.addEventListener("click", openConsole);
-    dom.consoleClose.addEventListener("click", closeConsole);
-
-    dom.commandForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      dom.consoleOutput.textContent = runCommand(dom.commandInput.value);
-      dom.commandInput.value = "";
-      dom.commandInput.focus();
-    });
-
-    dom.consoleDialog.addEventListener("close", () => {
-      if (lastFocusedElement instanceof HTMLElement) lastFocusedElement.focus();
+    dom.ratSize.addEventListener("input", () => {
+      dom.root.style.setProperty("--rat-scale", String(Number(dom.ratSize.value) / 100));
+      dom.controlStatus.textContent = `RAT SIZE: ${dom.ratSize.value}%`;
     });
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && dom.consoleDialog.open) {
-        event.preventDefault();
-        closeConsole();
-        return;
-      }
-
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        openConsole();
-        return;
-      }
-
       const target = event.target;
       if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target?.isContentEditable) return;
-
-      const konami = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+      const sequence = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
       const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
-      if (key === konami[konamiPosition]) {
+      if (key === sequence[konamiPosition]) {
         konamiPosition += 1;
-        if (konamiPosition === konami.length) {
+        if (konamiPosition === sequence.length) {
           konamiPosition = 0;
-          activateBintedProtocol();
+          chaosLevel = 5;
+          dom.body.dataset.chaos = "5";
+          for (let index = 0; index < 20; index += 1) createJunk("assets/trollcrazy.png");
+          dom.damageStatus.textContent = "WEBSITE DAMAGE: KONAMI / 5";
+          dom.controlStatus.textContent = "KONAMI TROLLFACE MODE.";
         }
       } else {
-        konamiPosition = key === konami[0] ? 1 : 0;
+        konamiPosition = key === sequence[0] ? 1 : 0;
       }
     });
   };
 
-  const initialize = () => {
-    store.set("visits", readNumber("visits") + 1);
-    soundEnabled = store.get("sound") === "on";
-    syncSoundControl();
-    updateCounterDisplay();
-    updateTime();
-    window.setInterval(updateTime, 1000);
-    addLog(localStorageAvailable ? "LOCAL STORAGE LINKED. NO DATA LEAVES THIS DEVICE." : "IN-MEMORY MODE. STORAGE IS UNAVAILABLE.");
-    bindEvents();
-  };
-
-  initialize();
+  setVisitCount();
+  bindEvents();
 })();

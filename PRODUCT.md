@@ -6,28 +6,28 @@ brand
 
 ## Users
 
-Visitors who want a small, playful internet artifact rather than a conventional marketing site. They arrive in a browser, explore a few harmless utilities, and can leave through Syleit's GitHub profile.
+Friends, curious GitHub visitors, and anyone who lands on Syleit's personal site expecting a quick internet joke rather than a product pitch.
 
 ## Product Purpose
 
-SYLEIT.OS replaces an obsolete Robux/IP-grab page with a trustworthy, local-only meme utility console. Success means the page feels distinct and responsive while making its no-tracking, no-external-dependency boundaries obvious.
+The page is a self-contained meme toy and personal homepage. It should make someone laugh, let them break the layout on purpose, and provide a clear route to Syleit's GitHub profile.
 
 ## Brand Personality
 
-Mechanical, mischievous, and self-aware. It should feel like an abandoned late-1990s lab control console brought back to life at 02:17—not a SaaS dashboard or a generic promotional site.
+Goofy, scrappy, and unpredictable. It should resemble a personal web experiment that escaped containment: loud colors, real meme files, bad rotations, and buttons with literal silly outcomes.
 
 ## Anti-references
 
-Avoid generic hero/CTA marketing layouts, floating glass cards, decorative gradient systems, ad-tech polish, fake malware language, Robux bait, and overdone terminal cosplay. The single deliberately unpleasant gradient is an artifact, not a visual theme.
+Do not make this a neo-brutalist dashboard, fake terminal, operating system, SaaS landing page, tidy card grid, or tasteful design-system showcase. Avoid AI-written absurdist filler, invented lore, generic feature names, and CSS recreations of meme images that already exist.
 
 ## Design Principles
 
-- Make the local-only boundary concrete and legible.
-- Give every interaction one weird but understandable consequence.
-- Let hard structure and concise copy carry the personality.
-- Keep utility controls keyboard-first and harmless by default.
-- Preserve a little ambiguity without withholding essential information.
+- Put recognizable meme material before explanatory copy.
+- Make every control's result obvious from its label.
+- Use deliberate amateur chaos instead of professionalized brutalism.
+- Keep the unsafe old jokes harmless and transparent.
+- Let visitors reset the damage whenever the joke becomes unreadable.
 
 ## Accessibility & Inclusion
 
-Target WCAG 2.1 AA contrast and keyboard operation. Respect reduced-motion preferences, keep sound opt-in, label mixed-language content, and ensure core content and the GitHub link remain usable without JavaScript.
+Keep full keyboard operation, strong focus states, useful image descriptions, reduced-motion behavior, opt-in audio, mobile-safe overflow, and clear statements that the legacy prank page collects nothing.

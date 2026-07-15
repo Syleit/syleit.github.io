@@ -2,18 +2,16 @@
 
 ## Scope and structure
 
-This repository is a dependency-free static site intended for GitHub Pages. Keep deployment at the repository root and preserve relative internal paths. `index.html` contains the semantic dashboard, accessible controls, metadata, and no-JavaScript fallback; `style.css` owns the responsive monochrome visual system; `script.js` is the single interaction layer; and `grabbed.html` is a safe legacy route that redirects home. Do not change `README.md` or `license.md` unless a task explicitly asks for it.
+This is a dependency-free static joke site deployed from the GitHub Pages repository root. `index.html` holds the visible meme collage and clearly labelled controls, `style.css` supplies the deliberately chaotic presentation, `script.js` owns all interaction logic, `assets/` contains local meme and audio files, and `grabbed.html` is a harmless legacy prank page. Keep internal paths relative. Do not change `README.md` or `license.md` unless a task explicitly requests it.
 
-## Content and implementation
+## Visual and content direction
 
-SYLEIT.OS is deliberately playful, sparse, and mixed English/German. Keep the joke harmless: never add Robux claims, IP collection, trackers, malware-related copy, third-party runtime code, media hotlinks, or data-collection claims. UI state must stay local to the browser using the `syleit-meme-os:v1` storage namespace, with a graceful in-memory fallback.
+The site should feel like a funny personal homepage made by someone experimenting with HTML and CSS, not a polished product, design-system demo, terminal UI, or neo-brutalist dashboard. Uneven rotations, clashing colors, old-web buttons, oversized type, visual overlap, and silly motion are intentional. Preserve the actual meme assets—especially `assets/unpleasantgradient.jpg`—instead of replacing them with generated phrases or CSS imitations.
 
-Use plain semantic HTML, modern CSS, and vanilla JavaScript only. Keep visible controls and console commands routed through the same action functions in `script.js`; do not add inline event handlers. New copy should remain legible without JavaScript, use language attributes for non-English phrases, and avoid making meaning depend on color alone.
+Keep jokes concrete and recognizable. Buttons need obvious labels and immediate effects: Random Meme changes the image, Make It Worse adds visual damage, Print Bogos reveals the printer mouse and plays local audio, and rat/cheese/troll controls add those objects. Never add trackers, IP collection, fake malware downloads, runtime dependencies, or third-party media hotlinks.
 
-## Accessibility and responsiveness
+## Accessibility and validation
 
-Retain keyboard access, visible `:focus-visible` states, logical headings, accessible labels, and dialog focus restoration. Sound must be off by default, opt-in after a user gesture, and generated locally only. Respect `prefers-reduced-motion`, including any new interactive effect. Test the dashboard around 320px, 768px, and 1440px with no horizontal clipping.
+Chaos must remain usable. Preserve semantic headings, keyboard controls, visible focus indicators, useful image alt text, an operable no-JavaScript page, and `prefers-reduced-motion`. Audio may only start after the Print Bogos button is pressed. Prevent horizontal overflow around 320px, 768px, and 1440px.
 
-## Validation
-
-Before handing off, run `node --check script.js`, inspect all internal links and asset references, and serve the root with a local static server to check `/`, `/style.css`, `/script.js`, and `/grabbed.html`. Exercise each visible utility and every console command; test `Ctrl/Cmd + K`, Escape, copy feedback, the Konami sequence, disabled local storage, and no-JavaScript behavior. Keep changes limited to the requested surface and review `git diff` before committing.
+Before handoff, run `node --check script.js`, verify every local asset path, serve the repository root, and exercise Random Meme, all five damage levels, reset, printer audio, rat sizing, cheese rain, trollface, Konami mode, and `grabbed.html`. Review `git diff` and keep unrelated user files uncommitted.
