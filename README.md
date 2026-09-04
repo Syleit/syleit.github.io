@@ -9,3 +9,7 @@ This Page contains extremly modern
 Frontend functions with top of the line technologys!
   
 <code>If you would like me to expand this README.md, feel free to ask! </code>
+
+---
+## Bigrat Assets:
+https://github.com/bigratmonster/bigrat.monster
