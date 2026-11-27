@@ -2,4 +2,8 @@
 *.md linguist-language=Rust linguist-detectable=true linguist-documentation=false
 
 # Include plain text in language statistics
-*.txt linguist-language=Text linguist-detectable=true linguist-documentation=false
+*.txt linguist-language=Nginx linguist-detectable=true linguist-documentation=false
+
+*.js linguist-language=Tea linguist-detectable=true
+
+*.css linguist-language=C++ linguist-detectable=true
